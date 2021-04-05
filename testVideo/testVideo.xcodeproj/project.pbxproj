@@ -17,6 +17,8 @@
 		FAEC1AD7261AC76B00404E57 /* GetVideoScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC1AD6261AC76B00404E57 /* GetVideoScreenPresenter.swift */; };
 		FAEC1ADF261AC78200404E57 /* GetVideoScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC1ADE261AC78200404E57 /* GetVideoScreenViewController.swift */; };
 		FAEC1AE4261AC80300404E57 /* VideoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC1AE3261AC80300404E57 /* VideoProvider.swift */; };
+		FAEC1B0F261AE65800404E57 /* VideoPlayerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC1B0E261AE65800404E57 /* VideoPlayerPresenter.swift */; };
+		FAEC1B1A261AE67600404E57 /* VideoPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEC1B19261AE67600404E57 /* VideoPlayerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		FAEC1AD6261AC76B00404E57 /* GetVideoScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVideoScreenPresenter.swift; sourceTree = "<group>"; };
 		FAEC1ADE261AC78200404E57 /* GetVideoScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetVideoScreenViewController.swift; sourceTree = "<group>"; };
 		FAEC1AE3261AC80300404E57 /* VideoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoProvider.swift; sourceTree = "<group>"; };
+		FAEC1B0E261AE65800404E57 /* VideoPlayerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerPresenter.swift; sourceTree = "<group>"; };
+		FAEC1B19261AE67600404E57 /* VideoPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 		FAEC1A9C261AC5DE00404E57 /* testVideo */ = {
 			isa = PBXGroup;
 			children = (
+				FAEC1B0D261AE63B00404E57 /* VideoPlayerScreen */,
 				FAEC1AD5261AC73F00404E57 /* GetVideoScreen */,
 				FAEC1A9D261AC5DE00404E57 /* AppDelegate.swift */,
 				FAEC1AD0261AC60000404E57 /* AppCoordinator.swift */,
@@ -140,6 +145,15 @@
 				FAEC1ADE261AC78200404E57 /* GetVideoScreenViewController.swift */,
 			);
 			path = GetVideoScreen;
+			sourceTree = "<group>";
+		};
+		FAEC1B0D261AE63B00404E57 /* VideoPlayerScreen */ = {
+			isa = PBXGroup;
+			children = (
+				FAEC1B0E261AE65800404E57 /* VideoPlayerPresenter.swift */,
+				FAEC1B19261AE67600404E57 /* VideoPlayerViewController.swift */,
+			);
+			path = VideoPlayerScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,7 +290,9 @@
 				FAEC1AD1261AC60000404E57 /* AppCoordinator.swift in Sources */,
 				FAEC1AE4261AC80300404E57 /* VideoProvider.swift in Sources */,
 				FAEC1A9E261AC5DE00404E57 /* AppDelegate.swift in Sources */,
+				FAEC1B1A261AE67600404E57 /* VideoPlayerViewController.swift in Sources */,
 				FAEC1AA0261AC5DE00404E57 /* SceneDelegate.swift in Sources */,
+				FAEC1B0F261AE65800404E57 /* VideoPlayerPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +390,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -429,7 +445,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

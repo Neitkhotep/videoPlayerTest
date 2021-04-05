@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class GetVideoScreenPresenter: GetVideoScreenViewOutput {
+final class GetVideoScreenPresenter: GetVideoScreenViewInput {
     enum State {
         case play
         case download
@@ -15,7 +15,7 @@ final class GetVideoScreenPresenter: GetVideoScreenViewOutput {
     }
     
     lazy var onButtonTapped: () -> () = { [weak self] in
-        self?.fetch()
+        self?.handleTap()
     }
     
     private let videoURL: URL
@@ -36,7 +36,7 @@ final class GetVideoScreenPresenter: GetVideoScreenViewOutput {
     
     private var videoProvider: VideoProviderProtocol
     private let router: Router
-    weak var view: GetVideoScreenViewInput?
+    weak var view: GetVideoScreenViewOutput?
     
     init(router: Router, videoURL: URL, videoProvider: VideoProviderProtocol = VideoProvider()) {
         self.videoProvider = videoProvider

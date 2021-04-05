@@ -38,5 +38,8 @@ final class AppCoordinator: Router {
     
     func showPlayerScreen() {
         
+        let presenter = VideoPlayerPresenter()
+        let vc = VideoPlayerViewController(presenter)
+        navigationController.pushViewController(vc, animated: true)
     }
 }

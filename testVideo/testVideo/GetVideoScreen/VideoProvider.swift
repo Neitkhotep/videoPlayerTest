@@ -30,7 +30,7 @@ final class VideoProvider: NSObject, VideoProviderProtocol {
     
     private lazy var videoData = Data()
     
-    init(fileName: String = "test") {
+    init(fileName: String = "test.mp4") {
         self.fileName = fileName
         
         super.init()
@@ -47,7 +47,7 @@ final class VideoProvider: NSObject, VideoProviderProtocol {
     }
     
     func isLocalAvailable() -> Bool {
-        guard let _ = fetchLocal(withName: "test") else { return false }
+        guard let _ = fetchLocal(withName: "test.mp4") else { return false }
         return true
     }
     
@@ -77,7 +77,7 @@ final class VideoProvider: NSObject, VideoProviderProtocol {
     private func localURL() -> URL? {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documents = paths.first
-        return documents?.appendingPathComponent("test")
+        return documents?.appendingPathComponent("test.mp4")
     }
     
     private func saveMediaDataToLocalFile() {

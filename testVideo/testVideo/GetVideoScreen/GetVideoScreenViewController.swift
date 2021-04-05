@@ -8,16 +8,16 @@
 import Foundation
 import UIKit
 
-protocol GetVideoScreenViewInput: class {
+protocol GetVideoScreenViewOutput: class {
     var onButtonNameChanged: (String) -> () { get }
 }
 
-protocol GetVideoScreenViewOutput {
+protocol GetVideoScreenViewInput {
     func tryFetch()
     var onButtonTapped: () -> () { get set }
 }
 
-final class GetVideoScreenViewController: UIViewController, GetVideoScreenViewInput {
+final class GetVideoScreenViewController: UIViewController, GetVideoScreenViewOutput {
     private enum Attributes {
         
         static var buttonAttributes: [NSAttributedString.Key: Any] = [
@@ -26,7 +26,7 @@ final class GetVideoScreenViewController: UIViewController, GetVideoScreenViewIn
         ]
     }
     
-    private let presenter: GetVideoScreenViewOutput
+    private let presenter: GetVideoScreenViewInput
     
     lazy var onButtonNameChanged: (String) -> () = { [weak self] title in
         self?.button.setAttributedTitle(NSAttributedString(string: title,
@@ -44,7 +44,7 @@ final class GetVideoScreenViewController: UIViewController, GetVideoScreenViewIn
         return button
     }()
     
-    init(_ presenter: GetVideoScreenViewOutput) {
+    init(_ presenter: GetVideoScreenViewInput) {
         self.presenter = presenter
 
         super.init(nibName: nil, bundle: nil)
@@ -55,16 +55,16 @@ final class GetVideoScreenViewController: UIViewController, GetVideoScreenViewIn
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        presenter.tryFetch()
-    }
-    
     override func loadView() {
         view = UIView()
         view.backgroundColor = .white
 
         setupViews()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        presenter.tryFetch()
     }
     
     private func setupViews() {
