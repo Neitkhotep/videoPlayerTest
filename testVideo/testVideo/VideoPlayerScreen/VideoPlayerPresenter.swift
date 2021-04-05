@@ -19,16 +19,16 @@ final class VideoPlayerPresenter: VideoPlayerInput {
     private var modules: [Module] = [
         Module(start: CMTime(seconds: 0, preferredTimescale: 600),
                pause: CMTime(seconds: 5, preferredTimescale: 600),
-               duration: CMTime(seconds: 10, preferredTimescale: 600)),
+               duration: CMTime(seconds: 15, preferredTimescale: 600)),
         Module(start: CMTime(seconds: 10, preferredTimescale: 600),
                pause: CMTime(seconds: 5, preferredTimescale: 600),
-               duration: CMTime(seconds: 10, preferredTimescale: 600)),
+               duration: CMTime(seconds: 4, preferredTimescale: 600)),
         Module(start: CMTime(seconds: 0, preferredTimescale: 600),
                pause: CMTime(seconds: 5, preferredTimescale: 600),
-               duration: CMTime(seconds: 5, preferredTimescale: 600)),
+               duration: CMTime(seconds: 25, preferredTimescale: 600)),
         Module(start: CMTime(seconds: 25, preferredTimescale: 600),
                pause: CMTime(seconds: 5, preferredTimescale: 600),
-               duration: CMTime(seconds: 5, preferredTimescale: 600))
+               duration: CMTime(seconds: 35, preferredTimescale: 600))
     ]
     
     private var currentModuleIndex: Int = 0
@@ -42,14 +42,16 @@ final class VideoPlayerPresenter: VideoPlayerInput {
     }
     
     func playPrevious() {
-        guard currentModuleIndex > 1 else { return }
+        guard currentModuleIndex >= 1 else { return }
         currentModuleIndex = currentModuleIndex - 1
+        view?.stop()
         playCurrent()
     }
     
     func playNext() {
         guard currentModuleIndex < modules.count - 1 else { return }
         currentModuleIndex = currentModuleIndex + 1
+        view?.stop()
         playCurrent()
     }
     

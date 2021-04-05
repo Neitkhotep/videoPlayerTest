@@ -18,15 +18,22 @@ protocol VideoPlayerInput {
 
 protocol VideoPlayerInputOutput: class {
     func timerLabelChanged(_ text: String)
+    func stop()
     func play(start: CMTime, pause: CMTime, duration: CMTime)
 }
 
 final class VideoPlayerViewController: UIViewController, VideoPlayerInputOutput {
 
     private let playerLayer = AVPlayerLayer()
+    private lazy var pauseLayer: CALayer = {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.black.withAlphaComponent(0.4).cgColor
+        return layer
+    }()
+    
     private let presenter: VideoPlayerInput
     private var player: AVPlayer?
-    private var timer: Timer?
+    private var durationTimer: Timer?
     private var pauseTimer: Timer?
     private var pauseCount: Int = 0
     private var durationCount: Int = 0
@@ -95,11 +102,17 @@ final class VideoPlayerViewController: UIViewController, VideoPlayerInputOutput 
         timerLabel.text = text
     }
     
+    func stop() {
+        durationTimer?.invalidate()
+        pauseTimer?.invalidate()
+        player?.pause()
+    }
+    
     func play(start: CMTime, pause: CMTime, duration: CMTime) {
         player?.seek(to: start)
        
         pauseCount = Int(pause.seconds)
-        durationCount = Int(pause.seconds)
+        durationCount = Int(duration.seconds)
         
         pauseTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                           target: self,
@@ -107,21 +120,31 @@ final class VideoPlayerViewController: UIViewController, VideoPlayerInputOutput 
                                           userInfo: nil, repeats: true)
     }
   
-    private func resumePlay(for duration: Int) {
-        timer = Timer(fireAt: Date() + TimeInterval(Int(duration)),
-                      interval: 0,  target: self,
-                           selector: #selector(played),
-                           userInfo: nil, repeats: true)
-        
-        RunLoop.current.add(timer!, forMode: RunLoop.Mode.common)
+    private func resumePlay() {
+        pauseLayer.removeFromSuperlayer()
+        durationTimer = Timer.scheduledTimer(timeInterval: 1.0,
+                                             target: self,
+                                             selector: #selector(updateDuration),
+                                             userInfo: nil, repeats: true)
         player?.play()
     }
     
-    @objc
     func played() {
-        timer?.invalidate()
+        durationTimer?.invalidate()
+        view.layer.addSublayer(pauseLayer)
         player?.pause()
         presenter.playNext()
+    }
+    
+    @objc func updateDuration() {
+        if(durationCount > 0) {
+            durationCount = durationCount - 1
+            timerLabel.text = "Play: -\(durationCount)"
+        } else {
+            timerLabel.text = "Play: 0"
+            durationTimer?.invalidate()
+            played()
+        }
     }
     
     @objc func updatePause() {
@@ -131,7 +154,7 @@ final class VideoPlayerViewController: UIViewController, VideoPlayerInputOutput 
         } else {
             pauseLabel.text = "Pause: 0"
             pauseTimer?.invalidate()
-            resumePlay(for: durationCount)
+            resumePlay()
         }
     }
     
@@ -143,23 +166,26 @@ final class VideoPlayerViewController: UIViewController, VideoPlayerInputOutput 
         player = AVPlayer(url: contentUrl)
         
         playerLayer.player = player
-       
-        player?.addPeriodicTimeObserver(forInterval: CMTime.init(seconds: 1, preferredTimescale: 600), queue: DispatchQueue.main, using: { [weak self] time in
-            self?.timerLabel.text = "Play: \(Int(time.seconds))"
-        })
     }
     
     private func setupViews() {
-        view.addSubview(previousButton)
-        view.addSubview(nextButton)
+        let stackView = UIStackView(arrangedSubviews: [previousButton, nextButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+        stackView.axis = .horizontal
+        stackView.spacing = 50.0
+        
         view.addSubview(timerLabel)
         view.addSubview(pauseLabel)
+        view.addSubview(stackView)
 
         NSLayoutConstraint.activate([
             timerLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             timerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             pauseLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 50),
             pauseLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.topAnchor.constraint(equalTo: pauseLabel.topAnchor, constant: 40)
             ])
     }
 }
