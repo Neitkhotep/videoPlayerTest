@@ -27,7 +27,7 @@ final class GetVideoScreenPresenter: GetVideoScreenViewInput {
             switch state {
             case .play: buttonName = "Play"
             case .download: buttonName = "Download"
-            case .progress(let progress): buttonName = "Progress: \(progress)"
+            case .progress(let progress): buttonName = "Progress: "
             }
             
             view?.onButtonNameChanged(buttonName)

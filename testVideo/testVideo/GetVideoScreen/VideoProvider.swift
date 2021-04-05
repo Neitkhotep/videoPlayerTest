@@ -43,6 +43,7 @@ final class VideoProvider: NSObject, VideoProviderProtocol {
     
     func fetchVideo(url: URL) {
         let task = assetDownloadURLSession.dataTask(with: url)
+        self.onStateChanged?(.downloading(progress: 0))
         task.resume()
     }
     
